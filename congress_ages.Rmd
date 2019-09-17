@@ -1,0 +1,34 @@
+---
+title: "congress ages.rmd"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(fivethirtyeight)
+library(knitr)
+library(ggplot2)
+```
+
+
+```{r}
+data("congress_age")
+
+plotdata <- congress_age %>%
+  mutate(year=format(termstart, "%Y")) %>%
+  group_by(party,year) %>%
+  select(party, firstname, lastname, age, termstart) %>%
+  summarise(average_age = mean(age)) %>%
+  filter(party %in% c("D", "R"))
+
+
+  
+
+
+```
+
+```{r}
+plotdata %>% ggplot(aes(x=year, y=average_age,color=party,group=party)) + geom_line()
+```
+
